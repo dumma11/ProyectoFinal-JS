@@ -45,7 +45,26 @@ function agregarContacto() {
         showCancelButton: true,
         confirmButtonText: "agregar",
         confirmButtonColor: "#4CAF50",
-        cancelButtonText: "Cancelar"
+        cancelButtonText: "Cancelar",
+        preConfirm: () => {
+            const nombre = document.getElementById('swal-input1').value;
+            const apellido = document.getElementById('swal-input2').value;
+            let telfijo = parseInt(document.getElementById("swal-input3").value)
+            let telmovil = parseInt(document.getElementById("swal-input4").value)
+            let email = document.getElementById("swal-input6").value
+            if (!nombre || !apellido) {
+                Swal.showValidationMessage('Por favor, completa los campos obligatorios: Nombre, Apellido');
+                return false;
+            }
+            if (isNaN(telmovil) || isNaN(telfijo)) {
+                Swal.showValidationMessage('Los teléfonos deben ser números');
+                return false;
+            }
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                Swal.showValidationMessage('Debe ingresar un e-mail valido');
+            }
+        }
     }).then((result) => {
         if (result.isConfirmed) {
             let nombre = document.getElementById("swal-input1").value
@@ -54,16 +73,6 @@ function agregarContacto() {
             let telmovil = parseInt(document.getElementById("swal-input4").value)
             let direccion = document.getElementById("swal-input5").value
             let email = document.getElementById("swal-input6").value
-
-            if (isNaN(telmovil) || isNaN(telfijo) || nombre == "" || apellido == "") {
-                Swal.fire({
-                    icon: "error",
-                    title: "error",
-                    text: "por favor ingresa datos validos"
-                })
-                return;
-            }
-
             let contacto = new Contacto(nombre, apellido, telfijo, telmovil, direccion, email)
             listadeContactos.push(contacto)
             mostrarContactos();
@@ -206,8 +215,8 @@ let resultadobien = parametro => {
         }
     });
     Toast.fire({
-      icon: "success",
-      title: parametro
+        icon: "success",
+        title: parametro
     });
 }
 
@@ -224,8 +233,8 @@ let resultadomal = parametro => {
         }
     });
     Toast.fire({
-      icon: "error",
-      title: parametro
+        icon: "error",
+        title: parametro
     });
 }
 
