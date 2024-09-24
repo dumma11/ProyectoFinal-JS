@@ -8,8 +8,6 @@ const Contacto = function (nombre, apellido, telfijo, telmovil, direccion, email
 }
 const listadeContactos = [];
 const agendaDiv = document.getElementById("agenda");
-
-// Cargar carrito desde localStorage al iniciar
 window.onload = cargarAgenda;
 
 if (listadeContactos.length === 0) {
@@ -42,7 +40,7 @@ function agregarContacto() {
           <input id="swal-input3" class="swal2-input" placeholder="Telefono Fijo">
           <input id="swal-input4" class="swal2-input" placeholder="Telefono Movil">
           <input id="swal-input5" class="swal2-input" placeholder="Direccion">
-          <input id="swal-input6" class="swal2-input" placeholder="E-mail">
+          <input type="email" id="swal-input6" class="swal2-input" placeholder="E-mail">
         `,
         showCancelButton: true,
         confirmButtonText: "agregar",
@@ -257,11 +255,12 @@ function filtrarEnAgenda() {
                     resultadobien(`Se encontraron ${busc.length} coincidencias`)
                     let mensaje = "<ul>";
                     mensaje += `Filtro aplicado: "${resp}"`;
-                    busc.forEach((cont, index) => {
+                    busc.forEach((el) => {
+                        const indexoriginal = listadeContactos.findIndex(elem => elem.nombre == el.nombre)
                         mensaje += `
-                            <li>${cont.nombre} ${cont.apellido} - Telefono: ${cont.telmovil} - E-MAIL: ${cont.email}
-                            <button onclick="editarContacto(${index})">Editar</button>
-                            <button onclick="borrarContacto(${index})">Borrar</button>
+                            <li>${el.nombre} ${el.apellido} - Telefono: ${el.telmovil} - E-MAIL: ${el.email}
+                            <button onclick="editarContacto(${indexoriginal})">Editar</button>
+                            <button onclick="borrarContacto(${indexoriginal})">Borrar</button>
                             </li>
                             `;
                     })
