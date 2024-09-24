@@ -147,7 +147,26 @@ function editarContacto(index) {
         showCancelButton: true,
         confirmButtonText: "Guardar",
         confirmButtonColor: "#4CAF50",
-        cancelButtonText: "Cancelar"
+        cancelButtonText: "Cancelar",
+        preConfirm: () => {
+            const nombre = document.getElementById('swal-input1').value;
+            const apellido = document.getElementById('swal-input2').value;
+            let telfijo = parseInt(document.getElementById("swal-input3").value)
+            let telmovil = parseInt(document.getElementById("swal-input4").value)
+            let email = document.getElementById("swal-input6").value
+            if (!nombre || !apellido) {
+                Swal.showValidationMessage('Por favor, completa los campos obligatorios: Nombre, Apellido');
+                return false;
+            }
+            if (isNaN(telmovil) || isNaN(telfijo)) {
+                Swal.showValidationMessage('Los teléfonos deben ser números');
+                return false;
+            }
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                Swal.showValidationMessage('Debe ingresar un e-mail valido');
+            }
+        }
     }).then((result) => {
         if (result.isConfirmed) {
             listadeContactos[index].nombre = document.getElementById("swal-input1").value;
