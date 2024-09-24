@@ -251,7 +251,6 @@ function filtrarEnAgenda() {
                 })
             } else {
                 const busc = listadeContactos.filter(el => el.nombre.trim().includes(resp));
-                const agendaDiv = document.getElementById("agenda");
                 if (busc.length === 0) {
                     resultadomal("No se encontraron coincidencias")
                 } else {
