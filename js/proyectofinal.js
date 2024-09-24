@@ -92,7 +92,7 @@ function buscarEnAgenda() {
                     confirmButtonColor: "#4CAF50"
                 })
             } else {
-                const busq = listadeContactos.find(el => el.nombre === resp);
+                const busq = listadeContactos.find(el => el.nombre.trim().toLowerCase() === resp.trim().toLowerCase());
                 const index = listadeContactos.findIndex(el => el.nombre === resp)
                 if (busq === undefined) {
                     resultadomal("No se encontraron coincidencias");
@@ -155,7 +155,6 @@ function editarContacto(index) {
 }
 
 function mostrarContactos() {
-    const agendaDiv = document.getElementById("agenda");
     if (listadeContactos.length === 0) {
         agendaDiv.innerHTML = "<p>Tu agenda está vacía</p>";
     } else {
@@ -241,14 +240,14 @@ function filtrarEnAgenda() {
     }).then(result => {
         if (result.isConfirmed) {
             const resp = document.getElementById("busqueda").value
-            if (resp == "") {
+            if (resp.trim() == "") {
                 Swal.fire({
                     icon: "error",
                     title: "Error",
                     text: "Introducir un parametro valido para filtrar"
                 })
             } else {
-                const busc = listadeContactos.filter(el => el.nombre.trim().includes(resp));
+                const busc = listadeContactos.filter(el => el.nombre.trim().toLowerCase().includes(resp.trim().toLowerCase()));
                 if (busc.length === 0) {
                     resultadomal("No se encontraron coincidencias")
                 } else {
@@ -256,11 +255,11 @@ function filtrarEnAgenda() {
                     let mensaje = "<ul>";
                     mensaje += `Filtro aplicado: "${resp}"`;
                     busc.forEach((el) => {
-                        const indexoriginal = listadeContactos.findIndex(elem => elem.nombre == el.nombre)
+                        const indexOriginal = listadeContactos.findIndex(elem => elem.nombre == el.nombre)
                         mensaje += `
                             <li>${el.nombre} ${el.apellido} - Telefono: ${el.telmovil} - E-MAIL: ${el.email}
-                            <button onclick="editarContacto(${indexoriginal})">Editar</button>
-                            <button onclick="borrarContacto(${indexoriginal})">Borrar</button>
+                            <button onclick="editarContacto(${indexOriginal})">Editar</button>
+                            <button onclick="borrarContacto(${indexOriginal})">Borrar</button>
                             </li>
                             `;
                     })
